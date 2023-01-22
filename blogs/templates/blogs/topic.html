@@ -1,25 +1,28 @@
 {% extends 'blogs/base.html' %}
 
+{% block page_header %}
+  <h3>{{ topic }}</h3>
+{% endblock page_header %}
+
 {% block content %}
+  <p>
+<a href="{% url 'blogs:new_entry' topic.id %}">Add new entry</a>
+  </p>
 
-  <p>Topic: {{  topic  }}</p>
-
-  <p>Entries:</p>
-<p>
-  <a href="{% url 'blogs:new_entry' topic.id %}">add new entry</a>
-</p>
-  <ul>
   {% for entry in entries %}
-    <li>
-      <p>{{ entry.date_added|date:'M d, Y H:i' }}</p>
-      <p>{{ entry.text|linebreaks }}</p>
-      <p>
-        <a href="{% url 'blogs:edit_entry' entry.id %}">Edit entry</a>
-      </p>
-    </li>
+    <div class="card_header">
+      <h4 class="card-header">
+        {{ entry.date_added|date:'M d, Y H:i' }}
+        <small><a href="{% url 'blogs:edit_entry' entry.id %}">
+            edit entry</a></small>
+      </h4>
+      <div class="card_body">
+        {{ entry.text|linebreaks }}
+      </div>
+    </div>
   {% empty %}
-    <li> uygavrgrgv</li>
+    <p>There are no entries for this topic yet.</p>
   {% endfor %}
-  </ul>
 
 {% endblock content %}
+
